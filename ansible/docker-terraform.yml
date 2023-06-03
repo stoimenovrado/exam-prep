@@ -1,0 +1,26 @@
+- name: Install Docker + Terraform
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - python3
+          - python3-pip
+        state: present
+
+    - name: Install Docker SDK for Python
+      pip:
+        name: docker
+  
+  roles:
+    - geerlingguy.docker
+    - andrewrothstein.terraform
+
+  tasks:
+    - name: Add vagrant user to docker group
+      user:
+        name: 'vagrant'
+        groups: docker
+        append: yes
